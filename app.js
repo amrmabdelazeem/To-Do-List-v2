@@ -16,8 +16,17 @@ app.use(express.static("public"));
 
 //create mongo database
 const url = process.env.MONGO_URL
-mongoose.connect(url);
-console.log("Server connected");
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(url);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+
 
 //create schema
 const itemsSchema = new mongoose.Schema({
@@ -139,6 +148,8 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-app.listen(3000, function() {
-  console.log("Server started on port 3000");
-});
+connectDB().then(() => {
+  app.listen(process.env.PORT, () => {
+      console.log("listening for requests");
+  })
+})
