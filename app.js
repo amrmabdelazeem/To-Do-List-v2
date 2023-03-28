@@ -14,8 +14,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+dotenv.config();
 //create mongo database
-const url = process.env.MONGO_URL
+const url = process.env.MONGO_URL;
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(url);
@@ -149,7 +150,7 @@ app.get("/about", function(req, res){
 });
 
 connectDB().then(() => {
-  app.listen(process.env.PORT, () => {
+  app.listen(process.env.PORT || 3000, () => {
       console.log("listening for requests");
   })
 })
