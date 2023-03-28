@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 //require mongoose
 const mongoose  = require("mongoose");
 const _ = require("lodash");
+const dotenv = require("dotenv");
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 //create mongo database
-mongoose.connect('mongodb+srv://admin-amr:Test123@cluster0.uadxae9.mongodb.net/todolistDB');
+const url = process.env.MONGO_URL
+mongoose.connect(url);
 console.log("Server connected");
 
 //create schema
